@@ -54,9 +54,13 @@ scripts/setup
 ### Use with board
 
 The default board is Arty. If you want to use different board you must specify target, e.g. `TARGET=digilent_nexys_video`.
-1. Build the SoC and load the bitstream onto Arty:
+1. Choose a project directory and `cd` into it, build the SoC, and load the bitstream onto Arty:
+<!-- name="cd" -->
 ```sh
 cd proj/proj_template
+```
+
+```sh
 make prog
 ```
 
