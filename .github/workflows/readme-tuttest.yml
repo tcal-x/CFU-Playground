@@ -1,8 +1,27 @@
-name: doc-test
+name: tut-test
 
 on:
- push:
- pull_request:
+  push:
+    paths-ignore:
+    - docs/**
+    - LICENSE
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - AUTHORS
+  pull_request:
+    paths-ignore:
+    - docs/**
+    - LICENSE
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - AUTHORS
+  workflow_dispatch:
+    paths-ignore:
+    - docs/**
+    - LICENSE
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - AUTHORS
  schedule:
   - cron: "0 0 * * *"
 
@@ -26,8 +45,8 @@ jobs:
         with:
           python-version: '3.7'
 
-      - name: Install prerequisites
-        run: apt -qqy update && apt -qqy install wget locales && locale-gen $LANG
+#      - name: Install prerequisites
+#        run: apt update && apt install wget locales && locale-gen $LANG
 
       - name: Install tuttest
         run: |
