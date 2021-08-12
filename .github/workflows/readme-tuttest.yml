@@ -48,7 +48,9 @@ jobs:
       - name: Install tuttest
         run: |
           wget https://github.com/antmicro/tuttest/releases/download/v0.2-beta/tuttest -O /usr/bin/tuttest
+          ls -lstr /usr/bin/tuttest
           chmod a+rx /usr/bin/tuttest
+          ls -lstr /usr/bin/tuttest
 
       - name: Check the README
         run: bash .github/scripts/tuttest-readme.sh
