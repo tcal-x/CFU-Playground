@@ -42,8 +42,8 @@ jobs:
         with:
           python-version: '3.7'
 
-#      - name: Install prerequisites
-#        run: apt update && apt install wget locales && locale-gen $LANG
+      - name: Install prerequisites
+        run: sudo apt update && sudo apt install wget openocd yosys expect ccache verilator libevent-dev libjson-c-dev libusb-1.0-0-dev libftdi1-dev
 
       - name: check usr bin
         run:  ls -lstr /usr/bin/
