@@ -1,0 +1,40 @@
+name: doc-test
+
+on:
+ push:
+ pull_request:
+ schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Setup RISC-V toolchain
+      - uses: colinaaa/setup-riscv-gnu-toolchain@v1.0.2
+        with:
+          release-date: '2020.08-1'
+
+      - name: Setup repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python 3.7
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+
+      - name: Install prerequisites
+        run: apt -qqy update && apt -qqy install wget locales && locale-gen $LANG
+
+      - name: Install tuttest
+        run: |
+          wget https://github.com/antmicro/tuttest/releases/download/v0.2-beta/tuttest -O /usr/bin/tuttest
+          chmod a+rx /usr/bin/tuttest
+
+      - name: Check the README
+        run: bash .github/scripts/tuttest-readme.sh
+
+
