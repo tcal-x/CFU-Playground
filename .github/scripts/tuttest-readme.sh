@@ -25,7 +25,7 @@ source ${CURRENT_DIR}/common.sh
 # -- tuttest -----------------------------------------------------------------
 
 
-snippets="README.md:setup,README.md:load"
+snippets="README.md:setup,load"
 
 # call tuttest
 tuttest_exec ${snippets}
