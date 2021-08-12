@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Setup RISC-V toolchain
-      - uses: colinaaa/setup-riscv-gnu-toolchain@v1.0.2
+        uses: colinaaa/setup-riscv-gnu-toolchain@v1.0.2
         with:
           release-date: '2020.08-1'
 
@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Python 3.7
-      - uses: actions/setup-python@v2
+        uses: actions/setup-python@v2
         with:
           python-version: '3.7'
 
@@ -36,5 +36,3 @@ jobs:
 
       - name: Check the README
         run: bash .github/scripts/tuttest-readme.sh
-
-
