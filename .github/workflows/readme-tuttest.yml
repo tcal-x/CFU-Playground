@@ -22,9 +22,6 @@ on:
     - CONTRIBUTING.md
     - CODE_OF_CONDUCT.md
     - AUTHORS
- schedule:
-  - cron: "0 0 * * *"
-
 jobs:
   test:
     runs-on: ubuntu-latest
