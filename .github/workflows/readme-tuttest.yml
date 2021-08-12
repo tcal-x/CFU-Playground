@@ -55,7 +55,7 @@ jobs:
         run:  ls -lstr /usr/bin/tuttest
 
       - name: chmod tuttest 
-        run:  chmod a+rx /usr/bin/tuttest
+        run:  sudo chmod a+rx /usr/bin/tuttest
 
       - name: check tuttest 2
         run:  ls -lstr /usr/bin/tuttest
