@@ -46,11 +46,16 @@ jobs:
 #        run: apt update && apt install wget locales && locale-gen $LANG
 
       - name: Install tuttest
-        run: |
-          wget https://github.com/antmicro/tuttest/releases/download/v0.2-beta/tuttest -O /usr/bin/tuttest
-          ls -lstr /usr/bin/tuttest
-          chmod a+rx /usr/bin/tuttest
-          ls -lstr /usr/bin/tuttest
+        run:  wget https://github.com/antmicro/tuttest/releases/download/v0.2-beta/tuttest -O /usr/bin/tuttest
+
+      - name: check tuttest 1
+        run:  ls -lstr /usr/bin/tuttest
+
+      - name: chmod tuttest 
+        run:  chmod a+rx /usr/bin/tuttest
+
+      - name: check tuttest 2
+        run:  ls -lstr /usr/bin/tuttest
 
       - name: Check the README
         run: bash .github/scripts/tuttest-readme.sh
