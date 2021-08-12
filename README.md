@@ -68,7 +68,11 @@ This builds the SoC with the default CFU from `proj/proj_template`. Later you'll
 
 
 2. Build a RISC-V program and execute it on the SoC that you just loaded onto the Arty:
-<!-- name="load" -->
+<!-- name="sw" -->
+```sh
+make -j software
+```
+
 ```sh
 make load
 ```
