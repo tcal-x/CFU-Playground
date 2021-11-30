@@ -34,13 +34,13 @@ void do_custom(void) {
       // write ahead, read
       unsigned q;
       q = cfu_op1(0, a, a | 0xff00 );
-      printf("write port a, read port b: %lx: %lx\n", a, q);
+      printf("write port a, read port b: %x: %x\n", a, q);
   }
   for (unsigned a = 0; a < 50; a+=1) {
       // read 
       unsigned q;
       q = cfu_op0(0, a, a );
-      printf("read port a: %lx: %lx\n", a, q);
+      printf("read port a: %x: %x\n", a, q);
   }
 }
 

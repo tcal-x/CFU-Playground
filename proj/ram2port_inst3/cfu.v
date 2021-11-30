@@ -84,9 +84,12 @@ module Cfu (
 
 
   // opcode 1: read port "b", write port "a" at +8
-  // opcode 0: read port "a" at +10
+  // opcode 0: read port "a" at +8
 
-  assign rsp_payload_outputs_0 = wen ? dout_b : dout_a;
+  reg delay_wen;
+  always @(posedge clk) delay_wen <= wen;
+
+  assign rsp_payload_outputs_0 = (wen|delay_wen) ? dout_b : dout_a;
 
 
   //
@@ -109,7 +112,7 @@ module Cfu (
      .BENA_N(4'b0000),
      .BENB_N(4'b0000),
      .CEOUTA(~wen),
-     .CEOUTB(wen),
+     .CEOUTB(wen|delay_wen),
      .DOA(dout_a),
      .DOB(dout_b)
   );
