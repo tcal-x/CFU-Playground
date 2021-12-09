@@ -55,8 +55,8 @@ module Cfu (
   // pick result
   reg [1:0] bank_sel;
   always @(posedge clk) bank_sel <= cmd_payload_inputs_0;
-  rsp_payload_outputs_0 = bank_sel[1] ? (bank_sel[0] ? port3_din : port2_din)
-                                      : (bank_sel[0] ? port1_din : port0_din);
+  assign rsp_payload_outputs_0 = bank_sel[1] ? (bank_sel[0] ? port3_din : port2_din)
+                                             : (bank_sel[0] ? port1_din : port0_din);
 
 
 endmodule
