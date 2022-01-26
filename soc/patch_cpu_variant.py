@@ -29,6 +29,7 @@ def patch_cpu_variant():
     core.CPU_VARIANTS.update({
         'custom':               'VexRiscv_Custom',
         'custom+cfu':           'VexRiscv_CustomCfu',
+        'hps+cfu':              'VexRiscv_HpsCfu',
         'dbpl8+cfu':            'VexRiscv_dbpl8Cfu',
         'slim+cfu':             'VexRiscv_SlimCfu',
         'slimopt+cfu':          'VexRiscv_SlimoptCfu',
@@ -41,6 +42,7 @@ def patch_cpu_variant():
     core.GCC_FLAGS.update({
         'custom':               '-march=rv32im -mabi=ilp32',
         'custom+cfu':           '-march=rv32im -mabi=ilp32',
+        'hps+cfu':              '-march=rv32im -mabi=ilp32',
         'dbpl8+cfu':            '-march=rv32im -mabi=ilp32',
         'slimopt+cfu':          '-march=rv32im -mabi=ilp32',
         'slim+cfu':             '-march=rv32im -mabi=ilp32',
