@@ -196,6 +196,14 @@ For example, the FST trace of only the top signals will be generated as ``/tmp/v
     With the FST format there's always also the additional ``*.hier`` file generated.
 
 
+You can view the waves captured above with this command:
+
+.. code-block:: bash
+
+    CFU-Playground/proj/my_project $  gtkwave -f /tmp/vtrace.fst
+
+
+
 Automated testing
 -----------------
 
