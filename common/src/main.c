@@ -32,6 +32,7 @@
 #include "proj_menu.h"
 #include "spiflash.h"
 #include "tflite_unit_tests.h"
+#include "mic3.h"
 
 #ifdef PLATFORM_sim
 static void trace_sim() {
@@ -63,6 +64,9 @@ static struct Menu MENU = {
 #endif
 #ifdef CSR_VIDEO_FRAMEBUFFER_BASE
         MENU_ITEM('9', "Framebuffer Debugging", framebuffer_menu),
+#endif
+#ifdef CSR_MIC3_SPI_BASE
+        MENU_ITEM('m', "Mic3 Tests", do_mic3_menu),
 #endif
 #ifdef PLATFORM_sim
         MENU_ITEM('t', "trace (only works in simulation)", trace_sim),

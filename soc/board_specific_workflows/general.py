@@ -19,9 +19,13 @@ from litex.soc.integration import builder
 from litex.soc.integration import soc as litex_soc
 from litex.soc.integration import soc_core
 from litex.soc.cores.cpu.vexriscv import core
+from litex.soc.cores.spi import SPIMaster
+from litex.build.generic_platform import Subsignal, Pins, IOStandard, Misc
+
 from typing import Callable
 from patch_cpu_variant import patch_cpu_variant, copy_cpu_variant_if_needed
 from patch_cpu_variant import build_cpu_variant_if_needed
+from dac import DAC
 
 
 
@@ -56,6 +60,32 @@ class GeneralSoCWorkflow():
         self.builder_constructor = builder_constructor or builder.Builder
         patch_cpu_variant()
 
+
+    def add_mic3_to_soc(self, soc, pmod = "PMOD1A"):
+        mic3_spi_d = [
+            ("mic3_spi", 0,
+                Subsignal("cs_n",  Pins(f"{pmod}:0")),
+                Subsignal("mosi",  Pins(f"{pmod}:1")),
+                Subsignal("miso",  Pins(f"{pmod}:2")),
+                Subsignal("clk",   Pins(f"{pmod}:3")),
+                IOStandard("LVCMOS33"),
+                Misc("SLEW=FAST"),
+            )
+        ]
+        soc.platform.add_extension(mic3_spi_d)
+        pads = soc.platform.request("mic3_spi")
+        soc.submodules.mic3_spi = SPIMaster(pads, 16, soc.sys_clk_freq, 20e6)
+        soc.mic3_spi.add_clk_divider()
+
+
+    def add_dac_to_soc(self, soc, pmod = "PMOD1B"):
+        dac_d = [ (pmod, 0, Pins(f"{pmod}:0"), IOStandard("LVCMOS33")) ]
+        soc.platform.add_extension(dac_d)
+        #self.platform.add_extension(icebreaker.raw_pmod_io("PMOD1B"))
+        outsig = soc.platform.request(pmod)[0]
+        soc.submodules.dac = DAC(outsig, 12)
+
+
     def make_soc(self, **kwargs) -> litex_soc.LiteXSoC:
         """Utilizes self.soc_constructor to make a LiteXSoC.
         
@@ -83,7 +113,30 @@ class GeneralSoCWorkflow():
         build_cpu_variant_if_needed(self.args.cpu_variant)
 
         base_soc_kwargs.update(kwargs)
-        return self.soc_constructor(**base_soc_kwargs)
+        this_soc_constructor = self.soc_constructor
+        print("TJC Soc constructor is ", this_soc_constructor)
+        soc = this_soc_constructor(**base_soc_kwargs)
+        print("TJC Soc is ", soc)
+        soc_ident = soc.identifier.get_memories()[0][1].init
+        soc_ident_str = ''.join(map(chr, soc_ident))
+        print("TJC Soc ident is ", soc_ident)
+        print("TJC Soc ident is ", soc_ident_str)
+        print("TJC Soc submodules ", soc.submodules)
+        if "Arty" in soc_ident_str:
+            print("Setting up stuff for Arty")
+            self.add_mic3_to_soc(soc, pmod="pmodd")
+            self.add_dac_to_soc(soc, pmod="pmodb")
+        elif "iCEBreaker" in soc_ident_str:
+            print("Setting up stuff for icebreaker")
+            self.add_mic3_to_soc(soc, pmod="PMOD1A")
+            self.add_dac_to_soc(soc, pmod="PMOD1B")
+        else:
+            print("Setting up stuff for unknown")
+            self.add_mic3_to_soc(soc)
+            self.add_dac_to_soc(soc)
+        print("kwargs", kwargs)
+        print("base_soc_kwargs", base_soc_kwargs)
+        return soc
 
     def build_soc(self, soc: litex_soc.LiteXSoC, **kwargs) -> builder.Builder:
         """Creates a LiteX Builder and builds the Soc if self.args.build.
