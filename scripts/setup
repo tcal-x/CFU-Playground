@@ -50,9 +50,14 @@ echo Missing:
 echo $missing
 
 in_ci=0
+no_yosys=0
 if [ $# -gt 0 ] ; then
   if [ $1 == "-ci" ] ; then
     in_ci=1
+  fi
+  if [ $1 == "-ci-no-yosys" ] ; then
+    in_ci=1
+    no_yosys=1
   fi
 fi
 
@@ -125,13 +130,13 @@ fi
 
 # Yosys -- get local copy if there isn't a sufficiently recent system verion 
 if ! which yosys >/dev/null || ! yosys -V | grep "Yosys 0.1" >/dev/null; then
-    if [ ! -e "${CFU_ROOT}/third_party/usr/local/bin/yosys" ]; then
+    if [[ ! -e "${CFU_ROOT}/third_party/usr/local/bin/yosys" && $no_yosys -eq 0 ]] ; then
         echo "Getting Yosys."
         mkdir -p "${CFU_ROOT}/third_party/usr/local"
         wget -qO- "https://anaconda.org/LiteX-Hub/yosys/0.14_67_g3818e1160/download/linux-64/yosys-0.14_67_g3818e1160-20220302_164843_py37.tar.bz2" | tar -xjC "${CFU_ROOT}/third_party/usr/local"
         wget -qO- "https://anaconda.org/LiteX-Hub/yosys-symbiflow-plugins/1.0.0_7_722_g6dfffa1/download/linux-64/yosys-symbiflow-plugins-1.0.0_7_722_g6dfffa1-20220223_095159.tar.bz2" | tar -xjC "${CFU_ROOT}/third_party/usr/local"
     else
-        echo "Yosys already installed locally."
+        echo "Yosys already installed locally, or not needed."
     fi
 else
     echo -n "Found satisfactory system Yosys: "
