@@ -1,0 +1,23 @@
+name: fomu_ci
+on: 
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+jobs:
+  verilator-conda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - run: bash scripts/setup -ci
+      - run: make env
+      - run: pwd && source env/conda/bin/activate cfu-common && source environment && yosys --version
+      - run: pwd && source env/conda/bin/activate cfu-common && source environment && cd proj/proj_template_v && make PLATFORM=sim run
