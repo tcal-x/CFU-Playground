@@ -20,6 +20,8 @@ dependencies:
   - litex-hub::symbiflow-yosys-plugins
   - lxml
   - simplejson
+  - libevent
+  - json-c
   - intervaltree
   - json-c
   - libevent

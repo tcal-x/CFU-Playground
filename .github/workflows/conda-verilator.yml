@@ -1,4 +1,4 @@
-name: fomu_ci
+name: conda-verilator-ci
 on: 
   workflow_dispatch:
   push:
