@@ -19,7 +19,7 @@ jobs:
           python-version: '3.7'
       - run: lsb_release -a && uname -a
       - run: bash scripts/setup -ci
-      - run: apt list
+      - run: apt list -i
       - run: make env
       - run: ls env/downloads/conda-pkgs/ | cat
       - run: pwd && source env/conda/bin/activate cfu-common && source environment && yosys --version && pip list
