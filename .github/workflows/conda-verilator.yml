@@ -20,4 +20,5 @@ jobs:
       - run: bash scripts/setup -ci
       - run: make env
       - run: pwd && source env/conda/bin/activate cfu-common && source environment && yosys --version
+      - run: pwd && source env/conda/bin/activate cfu-common && source environment && cd proj/proj_template_v && make software
       - run: pwd && source env/conda/bin/activate cfu-common && source environment && cd proj/proj_template_v && make PLATFORM=sim run
