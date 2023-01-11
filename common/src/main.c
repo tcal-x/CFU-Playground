@@ -48,6 +48,20 @@ static void exit_sim() {
 }
 #endif
 
+#include <inttypes.h>
+
+#define Q(x) #x
+#define EXPAND_AND_QUOTE(str) Q(str)
+
+static void do_priu32()
+{
+    uint32_t total = 0;
+
+    printf("\tTotal: %" PRIu32 "\n\n", total);
+    printf("\tUsed %s\n\n", PRIu32);
+    printf("\tUsed " EXPAND_AND_QUOTE(PRIu32) "\n\n");
+}
+
 static struct Menu MENU = {
     "CFU Playground",
     "main",
@@ -67,6 +81,7 @@ static struct Menu MENU = {
 #ifdef DONUT_DEMO
         MENU_ITEM('d', "Donut demo", donut),
 #endif
+        MENU_ITEM('p', "Test PRIu32", do_priu32),
 #ifdef SPIFLASH_BASE
         MENU_ITEM('9', "SPI Flash Debugging", spiflash_menu),
 #endif
